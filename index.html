@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Batt Consulting Group LLC | Microsoft 365 & Identity Migrations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Batt Consulting Group LLC specializes in Microsoft 365 migrations, Azure AD, security architecture, and enterprise identity solutions." />
+  <style>
+    :root {
+      --bg-dark: #050816;
+      --bg-section: #0b1020;
+      --accent: #0054a6;          /* blue from logo */
+      --accent-soft: rgba(0, 84, 166, 0.18);
+      --accent-strong: #004080;
+      --accent-green: #39a935;    /* green from logo */
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2933;
+      --danger: #f97373;
+      --max-width: 1120px;
+      --radius-lg: 18px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.65);
+      --transition-fast: 0.2s ease-out;
+      --nav-height: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 4.5rem 0;
+    }
+
+    @media (min-width: 900px) {
+      section {
+        padding: 5.5rem 0;
+      }
+    }
+
+    /* NAVBAR */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom,
+        rgba(2,6,23,0.95),
+        rgba(15,23,42,0.7),
+        transparent
+      );
+      border-bottom: 1px solid rgba(148,163,184,0.1);
+    }
+
+    .nav-inner {
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .nav-logo-img {
+      height: 44px;
+      width: auto;
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.12rem;
+    }
+
+    .nav-logo-text span:first-child {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .nav-logo-text span:last-child {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: none;
+      gap: 1.8rem;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .nav-link {
+      position: relative;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding-bottom: 0.2rem;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.15rem;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--accent), var(--accent-green));
+      transition: width var(--transition-fast);
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: inline-flex;
+      padding: 0.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.35);
+      background: radial-gradient(circle at top, rgba(15,23,42,0.3), rgba(15,23,42,0.9));
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      width: 18px;
+      height: 1.5px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      position: relative;
+      display: block;
+    }
+
+    .nav-toggle span::before,
+    .nav-toggle span::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 1.5px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      transition: transform var(--transition-fast), opacity var(--transition-fast), top var(--transition-fast), bottom var(--transition-fast);
+    }
+
+    .nav-toggle span::before {
+      top: -5px;
+    }
+
+    .nav-toggle span::after {
+      bottom: -5px;
+    }
+
+    .nav-toggle.open span {
+      background: transparent;
+    }
+
+    .nav-toggle.open span::before {
+      top: 0;
+      transform: rotate(45deg);
+    }
+
+    .nav-toggle.open span::after {
+      bottom: 0;
+      transform: rotate(-45deg);
+    }
+
+    .nav-menu-mobile {
+      display: none;
+      flex-direction: column;
+      gap: 0.6rem;
+      padding: 0.6rem 1.5rem 1.1rem;
+      background: radial-gradient(circle at top left, rgba(0,84,166,0.45), transparent 60%),
+                  rgba(15,23,42,0.98);
+      border-bottom: 1px solid rgba(148,163,184,0.2);
+    }
+
+    .nav-menu-mobile a {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      padding: 0.35rem 0;
+    }
+
+    .nav-menu-mobile a:hover {
+      color: var(--text-main);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.68rem 1.25rem;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.14s ease-out, box-shadow 0.14s ease-out, background 0.14s ease-out;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at 20% 0, var(--accent), var(--accent-strong));
+      color: white;
+      box-shadow: 0 12px 25px rgba(0,64,128,0.8);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 35px rgba(0,64,128,0.95);
+    }
+
+    .btn-ghost {
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(148,163,184,0.4);
+      color: var(--text-muted);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15,23,42,0.98);
+      color: var(--text-main);
+      transform: translateY(-1px);
+    }
+
+    @media (min-width: 900px) {
+      .nav-links {
+        display: flex;
+      }
+
+      .nav-cta {
+        display: inline-flex;
+      }
+
+      .nav-toggle {
+        display: none;
+      }
+
+      .nav-menu-mobile {
+        display: none !important;
+      }
+    }
+
+    /* HERO */
+    .hero {
+      padding-top: 4.2rem;
+      padding-bottom: 4rem;
+    }
+
+    .hero-inner {
+      display: grid;
+      gap: 3rem;
+    }
+
+    @media (min-width: 960px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+        align-items: center;
+      }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.7rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent-strong);
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(0,84,166,0.8);
+      margin-bottom: 0.9rem;
+    }
+
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent-green);
+      box-shadow: 0 0 0 6px rgba(57,169,53,0.25);
+    }
+
+    .hero-title {
+      font-weight: 750;
+      font-size: clamp(2.1rem, 3vw + 1.4rem, 2.9rem);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-title span.accent {
+      background-image: linear-gradient(120deg, var(--accent), var(--accent-green));
+      -webkit-background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      max-width: 34rem;
+      font-size: 0.95rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.7rem;
+    }
+
+    .hero-badge {
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: radial-gradient(circle at top, rgba(15,23,42,0.8), rgba(15,23,42,0.95));
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+    }
+
+    .hero-note strong {
+      color: #e5e7eb;
+    }
+
+    .hero-panel {
+      background: radial-gradient(circle at top left, rgba(0,84,166,0.35), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(57,169,53,0.35), transparent 60%),
+                  var(--bg-section);
+      border-radius: 26px;
+      padding: 1.5rem 1.4rem;
+      border: 1px solid rgba(148,163,184,0.25);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(248,250,252,0.12), transparent 55%);
+      mix-blend-mode: screen;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-panel-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    .hero-panel-chip {
+      font-size: 0.7rem;
+      background: rgba(15,23,42,0.9);
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      color: #e5e7eb;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 1.3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric-card {
+      padding: 0.7rem 0.85rem;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.96));
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 0.18rem;
+    }
+
+    .metric-value {
+      font-weight: 650;
+      font-size: 1.1rem;
+    }
+
+    .metric-tag {
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    .hero-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: relative;
+      z-index: 1;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .hero-list li {
+      display: flex;
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+
+    .hero-list-bullet {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.05rem;
+      flex-shrink: 0;
+    }
+
+    .hero-list-bullet span {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-strong);
+      margin-bottom: 0.3rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 650;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 32rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .grid-two {
+      display: grid;
+      gap: 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .grid-two {
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148,163,184,0.25);
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
+      padding: 1.3rem 1.4rem;
+      box-shadow: 0 16px 40px rgba(15,23,42,0.85);
+    }
+
+    .about-list {
+      list-style: none;
+      display: grid;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .about-list-item {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 0.5rem;
+      align-items: baseline;
+    }
+
+    .about-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .about-value {
+      color: #e5e7eb;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .chip {
+      font-size: 0.75rem;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      color: var(--text-muted);
+      background: rgba(15,23,42,0.9);
+    }
+
+    .services-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 900px) {
+      .services-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .service-card {
+      position: relative;
+      padding: 1.2rem 1.1rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148,163,184,0.25);
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.95), rgba(15,23,42,0.98));
+      box-shadow: 0 16px 40px rgba(15,23,42,0.9);
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top, rgba(0,84,166,0.22), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .service-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(0,84,166,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.7rem;
+      font-size: 0.9rem;
+    }
+
+    .service-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .service-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .service-tag {
+      font-size: 0.72rem;
+      padding: 0.12rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
+      color: var(--text-muted);
+    }
+
+    .process-steps {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 900px) {
+      .process-steps {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    .step {
+      padding: 1rem 0.9rem;
+      border-radius: var(--radius-lg);
+      background: rgba(15,23,42,0.96);
+      border: 1px solid rgba(148,163,184,0.3);
+      font-size: 0.85rem;
+    }
+
+    .step-number {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,84,166,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      margin-bottom: 0.35rem;
+      background: radial-gradient(circle at top, rgba(0,84,166,0.4), rgba(15,23,42,0.9));
+    }
+
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .step-text {
+      color: var(--text-muted);
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .contact-grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      }
+    }
+
+    .contact-note-list {
+      list-style: none;
+      display: grid;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .contact-note-list li {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .contact-dot {
+      margin-top: 0.3rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #6b7280;
+      flex-shrink: 0;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.85rem;
+    }
+
+    .field label {
+      color: #e5e7eb;
+    }
+
+    .field small {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .field-row {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    @media (min-width: 700px) {
+      .field-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    input, textarea, select {
+      background: rgba(15,23,42,0.95);
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.45);
+      padding: 0.6rem 0.75rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      border-radius: 16px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(0,84,166,0.5);
+      background: #020617;
+    }
+
+    .contact-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .contact-meta a {
+      color: #e5e7eb;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 2px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(31,41,55,0.9);
+      padding: 1.5rem 0 2.2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-main);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <!-- NAVBAR -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="#top" class="nav-logo">
+        <img src="batt-consulting-logo.png" alt="Batt Consulting Group LLC logo" class="nav-logo-img" />
+        <div class="nav-logo-text">
+          <span>Batt Consulting Group</span>
+          <span>Microsoft 365 • Identity • Cloud</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a class="nav-link" data-scroll="#services">Services</a>
+        <a class="nav-link" data-scroll="#about">About</a>
+        <a class="nav-link" data-scroll="#process">Approach</a>
+        <a class="nav-link" data-scroll="#contact">Contact</a>
+      </nav>
+      <button class="btn btn-primary nav-cta" data-scroll="#contact">
+        Schedule a Consult
+      </button>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+      </button>
+    </div>
+    <div class="nav-menu-mobile" id="mobileMenu">
+      <a data-scroll="#services">Services</a>
+      <a data-scroll="#about">About</a>
+      <a data-scroll="#process">Approach</a>
+      <a data-scroll="#contact">Contact</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="top">
+    <section class="hero">
+      <div class="wrapper hero-inner">
+        <div class="reveal">
+          <div class="eyebrow">
+            <div class="eyebrow-dot"></div>
+            Enterprise-Grade Microsoft 365 & Identity Migrations
+          </div>
+          <h1 class="hero-title">
+            De-risk your <span class="accent">Microsoft 365 & Azure</span> transformation.
+          </h1>
+          <p class="hero-subtitle">
+            Batt Consulting Group LLC specializes in complex Microsoft 365, Azure AD, and Active Directory migrations
+            for enterprises that can’t afford surprises. From assessment through cutover, we design and execute secure,
+            low-friction transitions.
+          </p>
+
+          <div class="hero-badges">
+            <span class="hero-badge">24+ years enterprise experience</span>
+            <span class="hero-badge">Microsoft 365 & Cybersecurity Architect</span>
+            <span class="hero-badge">Quest & Binary Tree migration tooling</span>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" data-scroll="#contact">
+              Book a Discovery Call
+            </button>
+            <button class="btn btn-ghost" data-scroll="#services">
+              View Services
+            </button>
+          </div>
+          <p class="hero-note">
+            <strong>Ideal for:</strong> M365 tenant-to-tenant moves, AD consolidation, security remediation, and
+            high-visibility cloud initiatives.
+          </p>
+        </div>
+
+        <aside class="hero-panel reveal">
+          <div class="hero-panel-header">
+            <div class="hero-panel-title">Migration scorecard</div>
+            <div class="hero-panel-chip">Managed by Batt Consulting Group</div>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric-card">
+              <div class="metric-label">Projects delivered</div>
+              <div class="metric-value">100+ </div>
+              <div class="metric-tag">M365, AD, security</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">User scale</div>
+              <div class="metric-value">50K+</div>
+              <div class="metric-tag">large enterprise seat counts</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Platforms</div>
+              <div class="metric-value">Hybrid</div>
+              <div class="metric-tag">On-prem + cloud</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Risk posture</div>
+              <div class="metric-value">Hardened</div>
+              <div class="metric-tag">IAM & email security</div>
+            </div>
+          </div>
+          <ul class="hero-list">
+            <li>
+              <div class="hero-list-bullet"><span></span></div>
+              <div>Presales through final cutover support for Microsoft 365 and Active Directory programs.</div>
+            </li>
+            <li>
+              <div class="hero-list-bullet"><span></span></div>
+              <div>Deep expertise with Quest Migration Manager, Quest On Demand, Binary Tree, and BitTitan.</div>
+            </li>
+            <li>
+              <div class="hero-list-bullet"><span></span></div>
+              <div>Security-focused designs leveraging Azure AD, ADFS, SSO, and Azure AD Connect best practices.</div>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="wrapper">
+        <div class="reveal">
+          <p class="section-label">What we do</p>
+          <h2 class="section-title">Specialized services for Microsoft-centric enterprises.</h2>
+          <p class="section-subtitle">
+            We focus on a tight range of offerings where we bring deep implementation and troubleshooting experience
+            built over two decades in messaging, identity, and cloud security.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <div class="service-icon">M</div>
+            <h3 class="service-title">Microsoft 365 & Exchange Migrations</h3>
+            <p class="service-text">
+              Design and execute migrations from legacy Exchange or third-party platforms to Microsoft 365. We handle
+              strategy, coexistence, public folders, cutover planning, and post-migration tuning.
+            </p>
+            <div class="service-tags">
+              <span class="service-tag">Exchange Online</span>
+              <span class="service-tag">Hybrid coexistence</span>
+              <span class="service-tag">Cutover & staged</span>
+              <span class="service-tag">Compliance integrations</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">ID</div>
+            <h3 class="service-title">Identity & Active Directory Modernization</h3>
+            <p class="service-text">
+              Consolidate, restructure, or migrate Active Directory and Azure AD with minimal disruption. We align IAM
+              architecture with modern security models and Azure AD Premium capabilities.
+            </p>
+            <div class="service-tags">
+              <span class="service-tag">Azure AD</span>
+              <span class="service-tag">Hybrid identity</span>
+              <span class="service-tag">SSO & ADFS</span>
+              <span class="service-tag">Governance & RBAC</span>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">SEC</div>
+            <h3 class="service-title">Security & Email Protection Architecture</h3>
+            <p class="service-text">
+              Harden your collaboration stack end-to-end: from Exchange and Microsoft 365 to secure email gateways and
+              continuity solutions, aligned with audit findings and regulatory requirements.
+            </p>
+            <div class="service-tags">
+              <span class="service-tag">EOP / Defender</span>
+              <span class="service-tag">Mimecast & Proofpoint</span>
+              <span class="service-tag">Continuity & DR</span>
+              <span class="service-tag">Audit remediation</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="wrapper">
+        <div class="grid-two">
+          <div class="reveal">
+            <p class="section-label">Principal consultant</p>
+            <h2 class="section-title">Meet Kevin Batt.</h2>
+            <p class="section-subtitle">
+              Kevin is a seasoned Microsoft 365 migration specialist and security architect with a strong focus on
+              practical, well-documented solutions that hold up in production.
+            </p>
+            <div class="card">
+              <ul class="about-list">
+                <li class="about-list-item">
+                  <span class="about-label">Experience</span>
+                  <span class="about-value">24+ years in enterprise messaging, identity, and cloud architecture.</span>
+                </li>
+                <li class="about-list-item">
+                  <span class="about-label">Background</span>
+                  <span class="about-value">
+                    Senior roles across consulting and architecture, designing solutions for customers from sub-100
+                    environments to 50K+ seat global firms.
+                  </span>
+                </li>
+                <li class="about-list-item">
+                  <span class="about-label">Tooling</span>
+                  <span class="about-value">
+                    Expert with Quest Migration Manager & On Demand, Binary Tree, BitTitan, and native Microsoft toolsets.
+                  </span>
+                </li>
+                <li class="about-list-item">
+                  <span class="about-label">Writing</span>
+                  <span class="about-value">
+                    Academic minor in English and a track record of clear, standardized technical documentation for repeatable delivery.
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <div class="card">
+              <h3 style="font-size:1rem; font-weight:600; margin-bottom:0.6rem;">Technology focus</h3>
+              <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.7rem;">
+                Batt Consulting Group operates as a specialist partner for organizations invested in Microsoft platforms.
+                We integrate clean architecture with operational practicality.
+              </p>
+
+              <div class="chip-row">
+                <span class="chip">Microsoft 365 / Office 365</span>
+                <span class="chip">Azure AD & identity</span>
+                <span class="chip">Active Directory</span>
+                <span class="chip">Exchange (all versions)</span>
+                <span class="chip">Hybrid topologies</span>
+                <span class="chip">DNS / DHCP / LDAP</span>
+              </div>
+
+              <h4 style="font-size:0.9rem; font-weight:600; margin-top:1.2rem; margin-bottom:0.35rem;">
+                Certifications
+              </h4>
+              <div class="chip-row">
+                <span class="chip">VMware VCP 6</span>
+                <span class="chip">Microsoft 365 Security Administrator</span>
+                <span class="chip">Microsoft Certified: Cybersecurity Architect</span>
+              </div>
+
+              <h4 style="font-size:0.9rem; font-weight:600; margin-top:1.2rem; margin-bottom:0.35rem;">
+                Industries served
+              </h4>
+              <div class="chip-row">
+                <span class="chip">Financial services</span>
+                <span class="chip">Legal</span>
+                <span class="chip">Real estate</span>
+                <span class="chip">Public sector & education</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process">
+      <div class="wrapper">
+        <div class="reveal">
+          <p class="section-label">How we work</p>
+          <h2 class="section-title">A structured, low-drama migration process.</h2>
+          <p class="section-subtitle">
+            Every engagement follows a clearly documented lifecycle—from discovery to handoff—so stakeholders know where
+            things stand and operations teams aren’t left guessing.
+          </p>
+        </div>
+        <div class="process-steps">
+          <div class="step reveal">
+            <div class="step-number">1</div>
+            <div class="step-title">Discovery & Assessment</div>
+            <p class="step-text">
+              Inventory identity, messaging, and security dependencies; understand current risks; align with business
+              timelines and regulatory requirements.
+            </p>
+          </div>
+          <div class="step reveal">
+            <div class="step-number">2</div>
+            <div class="step-title">Architecture & Planning</div>
+            <p class="step-text">
+              Design the target state, coexistence model, and migration waves. Select appropriate tooling and define
+              rollback and communication plans.
+            </p>
+          </div>
+          <div class="step reveal">
+            <div class="step-number">3</div>
+            <div class="step-title">Execution & Validation</div>
+            <p class="step-text">
+              Run pilots, refine runbooks, and scale out migration using automation, robust logging, and checkpoint-based
+              governance.
+            </p>
+          </div>
+          <div class="step reveal">
+            <div class="step-number">4</div>
+            <div class="step-title">Handoff & Hardening</div>
+            <p class="step-text">
+              Deliver documentation and knowledge transfer; address post-cutover issues; finalize security posture and
+              operational handoff.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="wrapper">
+        <div class="contact-grid">
+          <div class="reveal">
+            <p class="section-label">Let’s talk</p>
+            <h2 class="section-title">Share your migration or security challenge.</h2>
+            <p class="section-subtitle">
+              Whether you’re planning a major Microsoft 365 tenant move, consolidating domains, or responding to audit
+              findings, we can help you get from “complex and risky” to “documented and under control.”
+            </p>
+
+            <ul class="contact-note-list">
+              <li>
+                <div class="contact-dot"></div>
+                <div>Best suited to organizations with 500+ seats or significant regulatory/compliance requirements.</div>
+              </li>
+              <li>
+                <div class="contact-dot"></div>
+                <div>Available for project-based engagements, advisory retainers, or architecture reviews.</div>
+              </li>
+              <li>
+                <div class="contact-dot"></div>
+                <div>Initial discovery calls typically last 30–45 minutes and focus on clarifying scope and success criteria.</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card reveal">
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Thanks! This form is a front-end demo. Connect it to your backend or form service to receive submissions.');">
+              <div class="field-row">
+                <div class="field">
+                  <label for="name">Name *</label>
+                  <input id="name" type="text" required placeholder="Jane Doe" />
+                </div>
+                <div class="field">
+                  <label for="email">Work Email *</label>
+                  <input id="email" type="email" required placeholder="you@company.com" />
+                </div>
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="company">Organization *</label>
+                  <input id="company" type="text" required placeholder="Acme Corporation" />
+                </div>
+                <div class="field">
+                  <label for="size">Org size (approx.)</label>
+                  <select id="size">
+                    <option value="">Select...</option>
+                    <option>Under 500 users</option>
+                    <option>500 – 5,000 users</option>
+                    <option>5,000 – 25,000 users</option>
+                    <option>25,000+ users</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="topic">Primary focus *</label>
+                <select id="topic" required>
+                  <option value="">Select an option...</option>
+                  <option>Microsoft 365 / Exchange migration</option>
+                  <option>Active Directory / Azure AD project</option>
+                  <option>Security & email protection</option>
+                  <option>Architecture review / advisory</option>
+                  <option>Other (please describe)</option>
+                </select>
+                <small>We’ll use this to prepare relevant questions and recommendations.</small>
+              </div>
+
+              <div class="field">
+                <label for="message">Briefly describe your environment & objectives *</label>
+                <textarea id="message" required placeholder="Current platforms, timeline, key constraints, and any tooling currently in use."></textarea>
+              </div>
+
+              <div class="field">
+                <label for="timeline">Target timeline</label>
+                <select id="timeline">
+                  <option value="">Select...</option>
+                  <option>0 – 3 months</option>
+                  <option>3 – 6 months</option>
+                  <option>6 – 12 months</option>
+                  <option>Exploratory / early planning</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Submit Inquiry
+              </button>
+              <p class="contact-meta">
+                Prefer email? Reach out at <a href="mailto:kbatt103@gmail.com">kbatt103@gmail.com</a> or call
+                <a href="tel:+15702139174">(570) 213-9174</a>.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Batt Consulting Group LLC. All rights reserved.</div>
+      <div class="footer-links">
+        <span>Based in the U.S.</span>
+        <a href="#top">Back to top</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Smooth scroll for nav
+  function smoothScrollTo(selector) {
+    const target = document.querySelector(selector);
+    if (!target) return;
+    const y = target.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+
+  document.querySelectorAll("[data-scroll]").forEach(el => {
+    el.addEventListener("click", () => {
+      const selector = el.getAttribute("data-scroll");
+      smoothScrollTo(selector);
+      mobileMenu.style.display = "none";
+      navToggle.classList.remove("open");
+    });
+  });
+
+  // Mobile nav toggle
+  const navToggle = document.querySelector(".nav-toggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  navToggle.addEventListener("click", () => {
+    navToggle.classList.toggle("open");
+    const isOpen = navToggle.classList.contains("open");
+    mobileMenu.style.display = isOpen ? "flex" : "none";
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.16 }
+  );
+
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+  // Footer year
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
