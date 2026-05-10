@@ -9,7 +9,7 @@
     :root {
       --bg-dark: #050816;
       --bg-section: #0b1020;
-      --accent: #0054a6;          /* blue from logo */
+      --accent: #0054a6;           /* blue from logo */
       --accent-soft: rgba(0, 84, 166, 0.18);
       --accent-strong: #004080;
       --accent-green: #39a935;    /* green from logo */
@@ -30,17 +30,23 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
       color: var(--text-main);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     a {
       color: inherit;
       text-decoration: none;
+      transition: opacity var(--transition-fast);
     }
 
     img {
@@ -74,6 +80,7 @@
       top: 0;
       z-index: 40;
       backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       background: linear-gradient(to bottom,
         rgba(2,6,23,0.95),
         rgba(15,23,42,0.7),
@@ -96,6 +103,10 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
+    }
+
+    .nav-logo:hover {
+      opacity: 0.85;
     }
 
     .nav-logo-img {
@@ -226,10 +237,6 @@
       padding: 0.35rem 0;
     }
 
-    .nav-menu-mobile a:hover {
-      color: var(--text-main);
-    }
-
     .btn {
       display: inline-flex;
       align-items: center;
@@ -243,6 +250,7 @@
       cursor: pointer;
       transition: transform 0.14s ease-out, box-shadow 0.14s ease-out, background 0.14s ease-out;
       white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .btn-primary {
@@ -313,7 +321,7 @@
       border-radius: 999px;
       text-transform: uppercase;
       letter-spacing: 0.14em;
-      color: var(--accent-strong);
+      color: #93c5fd;
       background: rgba(15,23,42,0.9);
       border: 1px solid rgba(0,84,166,0.8);
       margin-bottom: 0.9rem;
@@ -338,13 +346,14 @@
     .hero-title span.accent {
       background-image: linear-gradient(120deg, var(--accent), var(--accent-green));
       -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
       white-space: nowrap;
     }
 
     .hero-subtitle {
       color: var(--text-muted);
-      max-width: 34rem;
+      max-width: 60ch;
       font-size: 0.95rem;
       margin-bottom: 1.6rem;
     }
@@ -501,7 +510,7 @@
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
-      color: var(--accent-strong);
+      color: #60a5fa;
       margin-bottom: 0.3rem;
     }
 
@@ -514,7 +523,7 @@
     .section-subtitle {
       font-size: 0.9rem;
       color: var(--text-muted);
-      max-width: 32rem;
+      max-width: 60ch;
       margin-bottom: 1.8rem;
     }
 
@@ -787,19 +796,6 @@
       background: #020617;
     }
 
-    .contact-meta {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 0.35rem;
-    }
-
-    .contact-meta a {
-      color: #e5e7eb;
-      text-decoration: underline;
-      text-decoration-style: dotted;
-      text-underline-offset: 2px;
-    }
-
     footer {
       border-top: 1px solid rgba(31,41,55,0.9);
       padding: 1.5rem 0 2.2rem;
@@ -844,57 +840,60 @@
         flex-direction: column;
         align-items: stretch;
       }
+      .contact-form .btn-primary {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 <div class="page">
   <!-- NAVBAR -->
-  <header class="nav">
+  <header class="nav" role="banner">
     <div class="nav-inner">
-      <a href="#top" class="nav-logo">
-        <img src="images/png.png" alt="Batt Consulting Group LLC logo" class="nav-logo-img" />
+      <a href="#top" class="nav-logo" aria-label="Batt Consulting Group Home">
+        <img src="images/png.png" alt="" width="44" height="44" class="nav-logo-img" />
         <div class="nav-logo-text">
           <span>Batt Consulting Group</span>
           <span>Microsoft 365 • Identity • Cloud</span>
         </div>
       </a>
-      <nav class="nav-links">
-        <a class="nav-link" data-scroll="#services">Services</a>
-        <a class="nav-link" data-scroll="#about">About</a>
-        <a class="nav-link" data-scroll="#process">Approach</a>
-        <a class="nav-link" data-scroll="#contact">Contact</a>
+      <nav class="nav-links" role="navigation" aria-label="Main Navigation">
+        <a href="#services" class="nav-link" data-scroll="#services">Services</a>
+        <a href="#about" class="nav-link" data-scroll="#about">About</a>
+        <a href="#process" class="nav-link" data-scroll="#process">Approach</a>
+        <a href="#contact" class="nav-link" data-scroll="#contact">Contact</a>
       </nav>
-      <button class="btn btn-primary nav-cta" data-scroll="#contact">
+      <a href="#contact" class="btn btn-primary nav-cta" data-scroll="#contact">
         Schedule a Consult
-      </button>
-      <button class="nav-toggle" aria-label="Toggle navigation">
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobileMenu">
         <span></span>
       </button>
     </div>
     <div class="nav-menu-mobile" id="mobileMenu">
-      <a data-scroll="#services">Services</a>
-      <a data-scroll="#about">About</a>
-      <a data-scroll="#process">Approach</a>
-      <a data-scroll="#contact">Contact</a>
+      <a href="#services" data-scroll="#services">Services</a>
+      <a href="#about" data-scroll="#about">About</a>
+      <a href="#process" data-scroll="#process">Approach</a>
+      <a href="#contact" data-scroll="#contact">Contact</a>
     </div>
   </header>
 
   <!-- HERO -->
-  <main id="top">
+  <main id="top" role="main">
     <section class="hero">
       <div class="wrapper hero-inner">
         <div class="reveal">
           <div class="eyebrow">
-            <div class="eyebrow-dot"></div>
+            <div class="eyebrow-dot" aria-hidden="true"></div>
             Enterprise-Grade Microsoft 365 & Identity Migrations
           </div>
           <h1 class="hero-title">
             De-risk your <span class="accent">Microsoft 365 & Azure</span> transformation.
           </h1>
           <p class="hero-subtitle">
-            Batt Consulting Group LLC specializes in complex Microsoft 365, Azure AD, and Active Directory migrations
-            for enterprises that can’t afford surprises. From assessment through cutover, we design and execute secure,
+            Batt Consulting Group LLC specializes in complex Microsoft 365, Azure AD, and Active Directory migrations 
+            for enterprises that can’t afford surprises. From assessment through cutover, we design and execute secure, 
             low-friction transitions.
           </p>
 
@@ -905,15 +904,15 @@
           </div>
 
           <div class="hero-actions">
-            <button class="btn btn-primary" data-scroll="#contact">
+            <a href="#contact" class="btn btn-primary" data-scroll="#contact">
               Book a Discovery Call
-            </button>
-            <button class="btn btn-ghost" data-scroll="#services">
+            </a>
+            <a href="#services" class="btn btn-ghost" data-scroll="#services">
               View Services
-            </button>
+            </a>
           </div>
           <p class="hero-note">
-            <strong>Ideal for:</strong> M365 tenant-to-tenant moves, AD consolidation, security remediation, and
+            <strong>Ideal for:</strong> M365 tenant-to-tenant moves, AD consolidation, security remediation, and 
             high-visibility cloud initiatives.
           </p>
         </div>
@@ -947,15 +946,15 @@
           </div>
           <ul class="hero-list">
             <li>
-              <div class="hero-list-bullet"><span></span></div>
+              <div class="hero-list-bullet" aria-hidden="true"><span></span></div>
               <div>Presales through final cutover support for Microsoft 365 and Active Directory programs.</div>
             </li>
             <li>
-              <div class="hero-list-bullet"><span></span></div>
+              <div class="hero-list-bullet" aria-hidden="true"><span></span></div>
               <div>Deep expertise with Quest Migration Manager, Quest On Demand, Binary Tree, and BitTitan.</div>
             </li>
             <li>
-              <div class="hero-list-bullet"><span></span></div>
+              <div class="hero-list-bullet" aria-hidden="true"><span></span></div>
               <div>Security-focused designs leveraging Azure AD, ADFS, SSO, and Azure AD Connect best practices.</div>
             </li>
           </ul>
@@ -970,17 +969,17 @@
           <p class="section-label">What we do</p>
           <h2 class="section-title">Specialized services for Microsoft-centric enterprises.</h2>
           <p class="section-subtitle">
-            We focus on a tight range of offerings where we bring deep implementation and troubleshooting experience
+            We focus on a tight range of offerings where we bring deep implementation and troubleshooting experience 
             built over two decades in messaging, identity, and cloud security.
           </p>
         </div>
 
         <div class="services-grid">
           <article class="service-card reveal">
-            <div class="service-icon">M</div>
+            <div class="service-icon" aria-hidden="true">M</div>
             <h3 class="service-title">Microsoft 365 & Exchange Migrations</h3>
             <p class="service-text">
-              Design and execute migrations from legacy Exchange or third-party platforms to Microsoft 365. We handle
+              Design and execute migrations from legacy Exchange or third-party platforms to Microsoft 365. We handle 
               strategy, coexistence, public folders, cutover planning, and post-migration tuning.
             </p>
             <div class="service-tags">
@@ -992,10 +991,10 @@
           </article>
 
           <article class="service-card reveal">
-            <div class="service-icon">ID</div>
+            <div class="service-icon" aria-hidden="true">ID</div>
             <h3 class="service-title">Identity & Active Directory Modernization</h3>
             <p class="service-text">
-              Consolidate, restructure, or migrate Active Directory and Azure AD with minimal disruption. We align IAM
+              Consolidate, restructure, or migrate Active Directory and Azure AD with minimal disruption. We align IAM 
               architecture with modern security models and Azure AD Premium capabilities.
             </p>
             <div class="service-tags">
@@ -1007,10 +1006,10 @@
           </article>
 
           <article class="service-card reveal">
-            <div class="service-icon">SEC</div>
+            <div class="service-icon" aria-hidden="true">SEC</div>
             <h3 class="service-title">Security & Email Protection Architecture</h3>
             <p class="service-text">
-              Harden your collaboration stack end-to-end: from Exchange and Microsoft 365 to secure email gateways and
+              Harden your collaboration stack end-to-end: from Exchange and Microsoft 365 to secure email gateways and 
               continuity solutions, aligned with audit findings and regulatory requirements.
             </p>
             <div class="service-tags">
@@ -1032,7 +1031,7 @@
             <p class="section-label">Principal consultant</p>
             <h2 class="section-title">Meet Kevin Batt.</h2>
             <p class="section-subtitle">
-              Kevin is a seasoned Microsoft 365 migration specialist and security architect with a strong focus on
+              Kevin is a seasoned Microsoft 365 migration specialist and security architect with a strong focus on 
               practical, well-documented solutions that hold up in production.
             </p>
             <div class="card">
@@ -1044,7 +1043,7 @@
                 <li class="about-list-item">
                   <span class="about-label">Background</span>
                   <span class="about-value">
-                    Senior roles across consulting and architecture, designing solutions for customers from sub-100
+                    Senior roles across consulting and architecture, designing solutions for customers from sub-100 
                     environments to 50K+ seat global firms.
                   </span>
                 </li>
@@ -1068,10 +1067,10 @@
             <div class="card">
               <h3 style="font-size:1rem; font-weight:600; margin-bottom:0.6rem;">Technology focus</h3>
               <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.7rem;">
-                Batt Consulting Group operates as a specialist partner for organizations invested in Microsoft platforms.
+                Batt Consulting Group operates as a specialist partner for organizations invested in Microsoft platforms. 
                 We integrate clean architecture with operational practicality.
               </p>
-
+              
               <div class="chip-row">
                 <span class="chip">Microsoft 365 / Office 365</span>
                 <span class="chip">Azure AD & identity</span>
@@ -1112,40 +1111,40 @@
           <p class="section-label">How we work</p>
           <h2 class="section-title">A structured, low-drama migration process.</h2>
           <p class="section-subtitle">
-            Every engagement follows a clearly documented lifecycle—from discovery to handoff—so stakeholders know where
+            Every engagement follows a clearly documented lifecycle—from discovery to handoff—so stakeholders know where 
             things stand and operations teams aren’t left guessing.
           </p>
         </div>
         <div class="process-steps">
           <div class="step reveal">
-            <div class="step-number">1</div>
+            <div class="step-number" aria-hidden="true">1</div>
             <div class="step-title">Discovery & Assessment</div>
             <p class="step-text">
-              Inventory identity, messaging, and security dependencies; understand current risks; align with business
+              Inventory identity, messaging, and security dependencies; understand current risks; align with business 
               timelines and regulatory requirements.
             </p>
           </div>
           <div class="step reveal">
-            <div class="step-number">2</div>
+            <div class="step-number" aria-hidden="true">2</div>
             <div class="step-title">Architecture & Planning</div>
             <p class="step-text">
-              Design the target state, coexistence model, and migration waves. Select appropriate tooling and define
+              Design the target state, coexistence model, and migration waves. Select appropriate tooling and define 
               rollback and communication plans.
             </p>
           </div>
           <div class="step reveal">
-            <div class="step-number">3</div>
+            <div class="step-number" aria-hidden="true">3</div>
             <div class="step-title">Execution & Validation</div>
             <p class="step-text">
-              Run pilots, refine runbooks, and scale out migration using automation, robust logging, and checkpoint-based
+              Run pilots, refine runbooks, and scale out migration using automation, robust logging, and checkpoint-based 
               governance.
             </p>
           </div>
           <div class="step reveal">
-            <div class="step-number">4</div>
+            <div class="step-number" aria-hidden="true">4</div>
             <div class="step-title">Handoff & Hardening</div>
             <p class="step-text">
-              Deliver documentation and knowledge transfer; address post-cutover issues; finalize security posture and
+              Deliver documentation and knowledge transfer; address post-cutover issues; finalize security posture and 
               operational handoff.
             </p>
           </div>
@@ -1161,92 +1160,88 @@
             <p class="section-label">Let’s talk</p>
             <h2 class="section-title">Share your migration or security challenge.</h2>
             <p class="section-subtitle">
-              Whether you’re planning a major Microsoft 365 tenant move, consolidating domains, or responding to audit
+              Whether you’re planning a major Microsoft 365 tenant move, consolidating domains, or responding to audit 
               findings, we can help you get from “complex and risky” to “documented and under control.”
             </p>
 
             <ul class="contact-note-list">
               <li>
-                <div class="contact-dot"></div>
+                <div class="contact-dot" aria-hidden="true"></div>
                 <div>Best suited to organizations with 500+ seats or significant regulatory/compliance requirements.</div>
               </li>
               <li>
-                <div class="contact-dot"></div>
+                <div class="contact-dot" aria-hidden="true"></div>
                 <div>Available for project-based engagements, advisory retainers, or architecture reviews.</div>
               </li>
               <li>
-                <div class="contact-dot"></div>
+                <div class="contact-dot" aria-hidden="true"></div>
                 <div>Initial discovery calls typically last 30–45 minutes and focus on clarifying scope and success criteria.</div>
               </li>
             </ul>
           </div>
 
           <div class="card reveal">
-            <form class="contact-form" onsubmit="event.preventDefault(); alert('Thanks! This form is a front-end demo. Connect it to your backend or form service to receive submissions.');">
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Inquiry Received. Thank you.');">
               <div class="field-row">
                 <div class="field">
                   <label for="name">Name *</label>
-                  <input id="name" type="text" required placeholder="Jane Doe" />
+                  <input id="name" type="text" name="name" required placeholder="Jane Doe" />
                 </div>
                 <div class="field">
                   <label for="email">Work Email *</label>
-                  <input id="email" type="email" required placeholder="you@company.com" />
+                  <input id="email" type="email" name="email" required placeholder="you@company.com" />
                 </div>
               </div>
 
               <div class="field-row">
                 <div class="field">
                   <label for="company">Organization *</label>
-                  <input id="company" type="text" required placeholder="Acme Corporation" />
+                  <input id="company" type="text" name="company" required placeholder="Acme Corporation" />
                 </div>
                 <div class="field">
                   <label for="size">Org size (approx.)</label>
-                  <select id="size">
+                  <select id="size" name="size">
                     <option value="">Select...</option>
-                    <option>Under 500 users</option>
-                    <option>500 – 5,000 users</option>
-                    <option>5,000 – 25,000 users</option>
-                    <option>25,000+ users</option>
+                    <option value="under500">Under 500 users</option>
+                    <option value="500-5000">500 – 5,000 users</option>
+                    <option value="5000-25000">5,000 – 25,000 users</option>
+                    <option value="25000plus">25,000+ users</option>
                   </select>
                 </div>
               </div>
 
               <div class="field">
                 <label for="topic">Primary focus *</label>
-                <select id="topic" required>
+                <select id="topic" name="topic" required>
                   <option value="">Select an option...</option>
-                  <option>Microsoft 365 / Exchange migration</option>
-                  <option>Active Directory / Azure AD project</option>
-                  <option>Security & email protection</option>
-                  <option>Architecture review / advisory</option>
-                  <option>Other (please describe)</option>
+                  <option value="m365">Microsoft 365 / Exchange migration</option>
+                  <option value="ad">Active Directory / Azure AD project</option>
+                  <option value="security">Security & email protection</option>
+                  <option value="architecture">Architecture review / advisory</option>
+                  <option value="other">Other (please describe)</option>
                 </select>
                 <small>We’ll use this to prepare relevant questions and recommendations.</small>
               </div>
 
               <div class="field">
                 <label for="message">Briefly describe your environment & objectives *</label>
-                <textarea id="message" required placeholder="Current platforms, timeline, key constraints, and any tooling currently in use."></textarea>
+                <textarea id="message" name="message" required placeholder="Current platforms, timeline, key constraints, and any tooling currently in use."></textarea>
               </div>
 
               <div class="field">
                 <label for="timeline">Target timeline</label>
-                <select id="timeline">
+                <select id="timeline" name="timeline">
                   <option value="">Select...</option>
-                  <option>0 – 3 months</option>
-                  <option>3 – 6 months</option>
-                  <option>6 – 12 months</option>
-                  <option>Exploratory / early planning</option>
+                  <option value="0-3">0 – 3 months</option>
+                  <option value="3-6">3 – 6 months</option>
+                  <option value="6-12">6 – 12 months</option>
+                  <option value="exploratory">Exploratory / early planning</option>
                 </select>
               </div>
 
               <button type="submit" class="btn btn-primary">
                 Submit Inquiry
               </button>
-              <p class="contact-meta">
-                Prefer email? Reach out at <a href="mailto:kbatt@battconsult.com">kbatt@battconsult.com</a> or call
-                <a href="tel:+15702139174">(570) 213-9174</a>.
-              </p>
             </form>
           </div>
         </div>
@@ -1255,61 +1250,76 @@
   </main>
 
   <!-- FOOTER -->
-  <footer>
+  <footer role="contentinfo">
     <div class="footer-inner">
       <div>© <span id="year"></span> Batt Consulting Group LLC. All rights reserved.</div>
       <div class="footer-links">
         <span>Based in the U.S.</span>
-        <a href="#top">Back to top</a>
+        <a href="#top" data-scroll="#top">Back to top</a>
       </div>
     </div>
   </footer>
 </div>
 
 <script>
-  // Smooth scroll for nav
-  function smoothScrollTo(selector) {
-    const target = document.querySelector(selector);
-    if (!target) return;
-    const y = target.getBoundingClientRect().top + window.scrollY - 72;
-    window.scrollTo({ top: y, behavior: "smooth" });
-  }
-
+  /**
+   * Refined Smooth Scrolling Logic
+   */
   document.querySelectorAll("[data-scroll]").forEach(el => {
-    el.addEventListener("click", () => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
       const selector = el.getAttribute("data-scroll");
-      smoothScrollTo(selector);
-      mobileMenu.style.display = "none";
-      navToggle.classList.remove("open");
+      const target = document.querySelector(selector);
+      
+      if (target) {
+        const navHeight = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = target.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - navHeight;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+        
+        history.pushState(null, null, selector);
+
+        if (navToggle.classList.contains("open")) {
+          mobileMenu.style.display = "none";
+          navToggle.classList.remove("open");
+          navToggle.setAttribute("aria-expanded", "false");
+        }
+      }
     });
   });
 
-  // Mobile nav toggle
   const navToggle = document.querySelector(".nav-toggle");
   const mobileMenu = document.getElementById("mobileMenu");
 
   navToggle.addEventListener("click", () => {
+    const isExpanded = navToggle.getAttribute("aria-expanded") === "true";
+    navToggle.setAttribute("aria-expanded", !isExpanded);
     navToggle.classList.toggle("open");
-    const isOpen = navToggle.classList.contains("open");
-    mobileMenu.style.display = isOpen ? "flex" : "none";
+    mobileMenu.style.display = isExpanded ? "none" : "flex";
   });
 
-  // Scroll reveal
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.16 }
-  );
+  const observerOptions = { 
+    threshold: 0.16,
+    rootMargin: "0px 0px -50px 0px" 
+  };
 
-  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
 
-  // Footer year
+  document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
